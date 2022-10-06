@@ -5,7 +5,7 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-ENV REACT_APP_API_UR=https://humongous.wittyground-665da87e.eastus.azurecontainerapps.io/HealthCheck
+ENV REACT_APP_API_URI=https://humongous.wittyground-665da87e.eastus.azurecontainerapps.io/HealthCheck
 
 RUN apt-get update
 RUN apt-get install -y curl
