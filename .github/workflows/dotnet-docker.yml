@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./Services/Humongous.Healthcare.Web
+        working-directory: ./Services/Humongous.Healthcare
     steps:
     - uses: actions/checkout@v2
     - uses: azure/docker-login@v1
