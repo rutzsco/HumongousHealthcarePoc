@@ -14,7 +14,7 @@ COPY . .
 WORKDIR "/src/."
 RUN dotnet build "Humongous.Healthcare.Web.csproj" -c Release -o /app/build
 
-FROM node as node-builder
+FROM node AS node-builder
 WORKDIR /node
 COPY ./ClientApp /node
 RUN npm install
