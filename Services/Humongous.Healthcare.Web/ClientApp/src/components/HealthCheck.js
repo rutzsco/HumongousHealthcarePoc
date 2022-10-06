@@ -1,4 +1,4 @@
-import { Component, Fragment } from "react";
+import React, { Component, Fragment } from "react";
 
 export class HealthCheck extends Component {
     // eslint-disable-next-line
