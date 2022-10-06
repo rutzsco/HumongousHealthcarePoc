@@ -1,0 +1,26 @@
+name: demo-api-docker-build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./Services/Humongous.Healthcare.Web
+    steps:
+    - uses: actions/checkout@v2
+    - uses: azure/docker-login@v1
+      with:
+        login-server: rutzscocr.azurecr.io
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+
+    - run: |
+        docker build . -t rutzscolabcr.azurecr.io/gh/demo-api:${{ github.sha }}
+        docker push rutzscolabcr.azurecr.io/gh/demo-api:${{ github.sha }}
