@@ -4,29 +4,29 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
+RUN apt-get update
+RUN apt-get install -y curl
+RUN apt-get install -y libpng-dev libjpeg-dev curl libxi6 build-essential libgl1-mesa-glx
+RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash -
+RUN apt-get install -y nodejs
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+RUN apt-get update
+RUN apt-get install -y curl
+RUN apt-get install -y libpng-dev libjpeg-dev curl libxi6 build-essential libgl1-mesa-glx
+RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash -
+RUN apt-get install -y nodejs
 WORKDIR /src
-
 COPY ["Humongous.Healthcare.Web.csproj", "."]
 RUN dotnet restore "./Humongous.Healthcare.Web.csproj"
 COPY . .
 WORKDIR "/src/."
 RUN dotnet build "Humongous.Healthcare.Web.csproj" -c Release -o /app/build
 
-FROM node AS node-builder
-WORKDIR /node
-COPY ./ClientApp /node
-RUN npm install
-RUN npm build
-
 FROM build AS publish
 RUN dotnet publish "Humongous.Healthcare.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-
 FROM base AS final
 WORKDIR /app
-RUN mkdir /app/wwwroot
 COPY --from=publish /app/publish .
-COPY --from=node-builder /node/build ./wwwroot
 ENTRYPOINT ["dotnet", "Humongous.Healthcare.Web.dll"]
