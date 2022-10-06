@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./Services/Humongous.Healthcare
+        working-directory: ./Services/Humongous.Healthcare.Web
     steps:
     - uses: actions/checkout@v2
     - uses: azure/docker-login@v1
@@ -22,5 +22,5 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}
 
     - run: |
-        docker build . -t rutzscolabcr.azurecr.io/humongous/api:${{ github.sha }}
-        docker push rutzscolabcr.azurecr.io/humongous/api:${{ github.sha }}
+        docker build . -t rutzscolabcr.azurecr.io/humongous/web-app:${{ github.sha }}
+        docker push rutzscolabcr.azurecr.io/humongous/web-app:${{ github.sha }}
