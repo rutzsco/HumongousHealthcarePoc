@@ -1,4 +1,4 @@
-name: demo-api-docker-build-v1
+name: demo-api-docker-build-web
 
 on:
   push:
