@@ -7,14 +7,14 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
+
+RUN curl -sL https://deb.nodesource.com/setup_10.x |  bash -
+RUN apt-get install -y nodejs
+
 COPY ["Humongous.Healthcare.Web.csproj", "."]
 RUN dotnet restore "./Humongous.Healthcare.Web.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN apt-get update -yq && apt-get upgrade -yq && apt-get install -yq curl git nano
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && apt-get install -yq nodejs build-essential
-RUN npm install -g npm
-RUN npm install
 RUN dotnet build "Humongous.Healthcare.Web.csproj" -c Release -o /app/build
 
 FROM build AS publish
