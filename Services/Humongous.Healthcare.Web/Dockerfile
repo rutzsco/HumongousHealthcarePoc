@@ -14,14 +14,15 @@ COPY . .
 WORKDIR "/src/."
 RUN dotnet build "Humongous.Healthcare.Web.csproj" -c Release -o /app/build
 
-FROM build AS publish
-RUN dotnet publish "Humongous.Healthcare.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false
-
 FROM node as node-builder
 WORKDIR /node
 COPY ./ClientApp /node
 RUN npm install
 RUN npm build
+
+FROM build AS publish
+RUN dotnet publish "Humongous.Healthcare.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
 
 FROM base AS final
 WORKDIR /app
